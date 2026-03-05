@@ -14,7 +14,7 @@ def paginate(words, tuples_per_page):
     
 
     pages = []
-    page_number = 0
+    page_number = 1
 
     for i in range(0, len(words), tuples_per_page):
 
