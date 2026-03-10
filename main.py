@@ -24,4 +24,13 @@ if pages:
     print(f"Número da página: {example_page.number}")
     print(f"Registros na página: {len(example_page.records)}")
     print("Primeiros registros:", example_page.records[:5])
+    
+hash_table = Bucket(4)
+
+hash_table.insert_hash("Harra")
+hash_table.insert_hash("Harry")
+hash_table.insert_hash("Ui")
+hash_table.insert_hash("Ai")
+
+hash_table.print_hash()
 
