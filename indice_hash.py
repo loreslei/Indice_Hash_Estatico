@@ -7,13 +7,15 @@ tuples_per_page = 1000
 pages = []
 page_number = 0
 
+#O índice hash a ser implementado é dinâmico, não estático no trabalho do Rafael
+
 
 with open("words.txt", "r") as f:
-    words_data = f.read().splitlines()
+    tuples = f.read().splitlines()
 
-pages = paginate(words_data, tuples_per_page)
+pages = paginate(tuples, tuples_per_page)
 
-print("Total de registros:", len(words_data))
+print("Total de registros:", len(tuples))
 print("Total de páginas:", len(pages))
 
 print("\nExemplo de página:")
