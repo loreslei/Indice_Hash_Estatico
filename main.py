@@ -1,36 +1,42 @@
-from paginas_hash import Bucket, Page, paginate
+from paginas_hash import Bucket, HashTable, Page
 
-PAGE_SIZE = 8 * 1024  
+# O índice hash a ser implementado é dinâmico, não estático
 
-tuples_per_page = 1000
+tuples_per_page = int(input("Digite uma quantidade de tuplas por página: "))
 
 pages = []
 page_number = 0
-
-#O índice hash a ser implementado é dinâmico, não estático no trabalho do Rafael
 
 
 with open("words.txt", "r") as f:
     tuples = f.read().splitlines()
 
-pages = paginate(tuples, tuples_per_page)
+
+pages = Page.paginate(tuples, tuples_per_page)
 
 print("Total de registros:", len(tuples))
 print("Total de páginas:", len(pages))
 
-print("\nExemplo de página:")
+print("\nPrimeira e Última Páginas:")
 if pages:
-    example_page = pages[1]
+    example_page = pages[0]
     print(f"Número da página: {example_page.number}")
     print(f"Registros na página: {len(example_page.records)}")
     print("Primeiros registros:", example_page.records[:5])
     
-hash_table = Bucket(4)
+    example_page = pages[len(pages)-1]
+    print(f"Número da página: {example_page.number}")
+    print(f"Registros na página: {len(example_page.records)}")
+    print("Primeiros registros:", example_page.records[:5])
+    
+    
+bucket_capacity = 1000
+    
+hash_table = HashTable(bucket_capacity)
 
-hash_table.insert_hash("Harra")
-hash_table.insert_hash("Harry")
-hash_table.insert_hash("Ui")
-hash_table.insert_hash("Ai")
+for page in pages:
+    for key in page.records:
+        hash_table.insert_hash(key, page.number)
 
 hash_table.print_hash()
 
