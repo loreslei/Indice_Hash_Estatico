@@ -1,8 +1,10 @@
 from paginas_hash import Bucket, HashTable, Page
+import time
 
 # O índice hash a ser implementado é dinâmico, não estático
 
 tuples_per_page = int(input("Digite uma quantidade de tuplas por página: "))
+word = input("Digite a chave a ser pesquisada: ")
 
 pages = []
 page_number = 0
@@ -38,5 +40,6 @@ for page in pages:
     for key in page.records:
         hash_table.insert_hash(key, page.number)
 
-hash_table.print_hash()
+#hash_table.print_hash()
+print(hash_table.search(word))
 
