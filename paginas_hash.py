@@ -11,12 +11,13 @@ class HashTable:
     def hash_index(self, key):
         h = 0
         for char in key:
-            h = h+1
-           # h = (h * 31 + ord(char)) % (2**32) 
+            #h = h + 1
+            h = (h * 31 + ord(char)) % (2**32) 
         return h
         
     def insert_hash(self, key, page_number):
         self.insertions += 1
+        
         index = self.hash_index(key)
         
         if index not in self.data:
