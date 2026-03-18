@@ -17,6 +17,7 @@ class HashTable:
         
     def insert_hash(self, key, page_number):
         self.insertions += 1
+        # key = key.lower()
         
         index = self.hash_index(key)
         
@@ -49,6 +50,7 @@ class HashTable:
         # self.buckets[current_address].append((key, page_number))
     
     def search(self, key):
+        # key = key.lower()
         index = self.hash_index(key)
 
         if index not in self.data:
@@ -130,11 +132,13 @@ class Page:
     
 def table_scan(pages, search_key):
     pages_accessed = 0
+    # search_key = search_key.lower()
     
     for page in pages:
         pages_accessed += 1
         
         for key in page.records:
+            #if key.lower() == search_key:
             if key == search_key:
                 print(f"\n[Table Scan] Chave '{search_key}' encontrada!")
                 print(f"[Table Scan] Página: {page.number}")

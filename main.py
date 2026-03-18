@@ -8,15 +8,10 @@ pages = []
 page_number = 0
 
 
-
 with open("words.txt", "r") as f:
     tuples = f.read().splitlines()
     
-# Tratamento caso necessário    
 
-tuples_upper = [i.upper() for i in tuples]
-
-#pages = Page.paginate(tuples_upper, tuples_per_page)
 pages = Page.paginate(tuples, tuples_per_page)
 
 print("Total de registros:", len(tuples))
@@ -50,7 +45,6 @@ hash_table.print_statistics()
 print("\n" * 1)
 print("BUSCAS (0-0)")
 
-#word = input("Digite a chave a ser pesquisada: ").upper()
 word = input("Digite a chave a ser pesquisada: ")
 
 print("BUSCA COM INDICE")
