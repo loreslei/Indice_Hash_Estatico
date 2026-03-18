@@ -1,4 +1,4 @@
-from paginas_hash import Bucket, HashTable, Page, table_scan
+from paginas_hash import HashTable, Page, table_scan
 import time
 
 
