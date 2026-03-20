@@ -2,7 +2,9 @@ from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from contextlib import asynccontextmanager
 from paginas_hash_web import HashTable, Page, table_scan
+from fastapi.middleware.cors import CORSMiddleware
 import time
+
 
 class ConfiguracaoBanco(BaseModel):
     tuples_per_page: int
@@ -24,6 +26,14 @@ async def lifespan(app: FastAPI):
     pages.clear()
 
 app = FastAPI(title="API de Busca em Banco de Dados", lifespan=lifespan)
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"], 
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 @app.post("/inicializar")
 def inicializar_banco(config: ConfiguracaoBanco):
@@ -76,14 +86,18 @@ def buscar_palavra(word: str):
     resultado_scan = table_scan(pages, word)
     end_time_table_scan = time.perf_counter()
     
+    # ... código de buscar o resultado_hash e resultado_scan
+
     time_spent_hash_index = round(end_time_index - start_time_index, 6)
     time_spent_table_scan = round(end_time_table_scan - start_time_table_scan, 6)
     
-    speed_gain = 0
-    speedup = 0
-    if time_spent_table_scan > 0 and time_spent_hash_index > 0:
-        speed_gain = 100 - ((time_spent_hash_index / time_spent_table_scan) * 100)
-        speedup = ((time_spent_table_scan - time_spent_hash_index) / time_spent_hash_index)
+    # Criamos tempos seguros (no mínimo 1 microssegundo) para evitar divisão por zero
+    safe_hash_time = max(time_spent_hash_index, 0.000001)
+    safe_scan_time = max(time_spent_table_scan, 0.000001)
+    
+    # Cálculo real, mesmo se o hash tiver sido rápido demais para o Python medir
+    speed_gain = 100 - ((safe_hash_time / safe_scan_time) * 100)
+    speedup = (safe_scan_time - safe_hash_time) / safe_hash_time
         
     return {
         "palavra_buscada": word,
@@ -92,9 +106,9 @@ def buscar_palavra(word: str):
             "table_scan": resultado_scan
         },
         "comparacao_tempo": {
-            "tempo_hash_segundos": time_spent_hash_index,
+            "tempo_hash_segundos": time_spent_hash_index, # Exibe o tempo real na tela
             "tempo_scan_segundos": time_spent_table_scan,
-            "reducao_tempo": round(speed_gain, 2),
+            "reducao_tempo_pct": round(speed_gain, 2),
             "ganho_velocidade_x": round(speedup, 2)
         }
     }

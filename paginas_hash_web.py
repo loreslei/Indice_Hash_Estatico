@@ -16,8 +16,9 @@ class HashTable:
         return h
         
     def insert_hash(self, key, page_number):
-        self.insertions += 1
         # key = key.lower()
+        
+        self.insertions += 1
         
         index = self.hash_index(key)
         
@@ -51,6 +52,7 @@ class HashTable:
     
     
     def search(self, key):
+        # key = key.lower()
         index = self.hash_index(key)
 
         if index not in self.data:
@@ -156,6 +158,7 @@ class Page:
 
 def table_scan(pages, search_key):
     pages_accessed = 0
+    # search_key = search_key.lower()
     
     for page in pages:
         pages_accessed += 1
