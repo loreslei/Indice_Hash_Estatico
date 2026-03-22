@@ -29,7 +29,10 @@ app = FastAPI(title="API de Busca em Banco de Dados", lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000, https://front-end-hash.vercel.app"], 
+    allow_origins=[
+        "http://localhost:3000", 
+        "https://front-end-hash.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
