@@ -34,8 +34,8 @@ origins = [
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=False,
+    allow_origins=origins,
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -118,12 +118,12 @@ def buscar_palavra(word: str):
         }
     }
 
-# @app.get("/estrutura")
-# def obter_estrutura(detalhado: bool = False):
-#     if not hash_table:
-#         raise HTTPException(status_code=400, detail="Inicialize o banco primeiro.")
-#     estrutura_dados = hash_table.get_hash_structure(incluir_registros=detalhado)
-#     return {
-#         "total_indices_unicos": len(estrutura_dados),
-#         "estrutura_indice": estrutura_dados
-#     }
+@app.get("/estrutura")
+def obter_estrutura(detalhado: bool = False):
+    if not hash_table:
+        raise HTTPException(status_code=400, detail="Inicialize o banco primeiro.")
+    estrutura_dados = hash_table.get_hash_structure(incluir_registros=detalhado)
+    return {
+        "total_indices_unicos": len(estrutura_dados),
+        "estrutura_indice": estrutura_dados
+    }
